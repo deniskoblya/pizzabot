@@ -2,7 +2,12 @@ module.exports = {
   homeMenu: {
     reply_markup: JSON.stringify({
       inline_keyboard: [
-        [{ text: "🍕 Заказать пиццу", callback_data: "show_pizza_menu" }],
+        [
+          {
+            text: "🍕 Заказать пиццу",
+            switch_inline_query_current_chat: "пицца",
+          },
+        ],
       ],
     }),
   },

@@ -1,54 +1,15 @@
 const TelegramBot = require("node-telegram-bot-api");
 const { homeMenu, pizzaMenu } = require("./buttons");
-const token = "2030130508:AAFEk89snSVwe6L5HBwbC2xivikrrd9-804";
+const token = "2030130508:AAECK7OzxLvqzbKFrfHmc8Q7ovPyIkaCIAs";
 
 const pizzas = [
   {
-    name: "Барбекью",
-    pic: "https://mistercat.com.ua/media/com_ksenmart/images/products/w300xh220/middle-middle-color-center-center-2021-09-25-12-33-01-1-0-0-100001545.png",
-    description:
-      "Соус барбекю, сир моцарела, бекон, філе куряче, печериці, помідор, цибуля, орегано базилік",
-    size: {
-      m: {
-        name: "M",
-        price: "89",
-        weight: "276",
-      },
-      l: {
-        name: "L",
-        price: "159",
-        weight: "572",
-      },
-      xl: {
-        name: "XL",
-        price: "249",
-        weight: "1083",
-      },
-    },
+    name: "Рол 'Веган'",
+    pic: "https://mr-sushi.com.ua/kiev/files/products/izobrazhenie_viber_2021-02-04_18-16-52.560x420.jpg?76ae31fc250bdfb52346e114eabab7df",
+    description: "норі,рис,салатний мікс,огірок,авокадо,горіховий соус",
+    price: "85",
   },
-  {
-    name: "Курочка с овощами",
-    pic: "https://mistercat.com.ua/media/com_ksenmart/images/products/w300xh220/middle-middle-color-center-center-2021-09-25-12-34-05-1-0-0-100001546.png",
-    description:
-      "Соус томатний, сир моцарела, філе куряче копчене, перець болгарський, маслини, броколі, орегано базилік",
-    size: {
-      m: {
-        name: "M",
-        price: "99",
-        weight: "305",
-      },
-      l: {
-        name: "L",
-        price: "159",
-        weight: "555",
-      },
-      xl: {
-        name: "XL",
-        price: "279",
-        weight: "1000",
-      },
-    },
-  },
+  
 ];
 
 const bot = new TelegramBot(token, { polling: true });
@@ -63,6 +24,9 @@ bot.on("callback_query", (msg) => {
   const data = msg.data;
   const chatId = msg.message.chat.id;
 
+  if (data === "pizza0_XL") {
+    console.log(this);
+  }
   if (data === "show_pizza_menu") {
     pizzas.forEach((item, num) => {
       const pizzaItem = `<b>${item.name}</b>\n\n<b>Вес:</b> ${item.size.m.weight} гр.\n<b>Цена:</b> ${item.size.m.price} грн.\n\n<i>${item.description}</i>`;
@@ -75,15 +39,15 @@ bot.on("callback_query", (msg) => {
             [
               {
                 text: `${item.size.m.name} - ${item.size.m.price} грн.`,
-                callback_data: `pizza_${item.size.m.name}`,
+                callback_data: `pizza${num}_${item.size.m.name}`,
               },
               {
                 text: `${item.size.l.name} - ${item.size.l.price} грн.`,
-                callback_data: `pizza_${item.size.l.name}`,
+                callback_data: `pizza${num}_${item.size.l.name}`,
               },
               {
                 text: `${item.size.xl.name} - ${item.size.xl.price} грн.`,
-                callback_data: `pizza_${item.size.xl.name}`,
+                callback_data: `pizza${num}_${item.size.xl.name}`,
               },
             ],
           ],
@@ -115,6 +79,40 @@ bot.on("message", (msg) => {
   // if (msg.from.id === "459417921") {
   //   bot.sendMessage(chatId, `@andr_sheptitsk cлышь, рот закрой уже`);
   // }
+});
+
+bot.on("inline_query", (query) => {
+  const results = [
+    {
+      id: 0,
+      type: "article",
+      title: `Рол "Веган" 85 грн`,
+      description: "норі,рис,салатний мікс,огірок,авокадо,горіховий соус",
+      thumb_url:
+        "https://mr-sushi.com.ua/kiev/files/products/izobrazhenie_viber_2021-02-04_18-16-52.560x420.jpg?76ae31fc250bdfb52346e114eabab7df",
+      input_message_content: {
+        message_text: `Полное описание моей пиццы`,
+      },
+    },
+    {
+      id: 1,
+      type: "article",
+      title: `Курочка с овощами 99 грн`,
+      description:
+        "Соус томатний, сир моцарела, філе куряче копчене, перець болгарський, маслини, броколі, орегано базилік",
+      thumb_url:
+        "https://mistercat.com.ua/media/com_ksenmart/images/products/w300xh220/middle-middle-color-center-center-2021-09-25-12-34-05-1-0-0-100001546.png",
+      input_message_content: {
+        message_text: `Полное описание моей пиццы`,
+      },
+    },
+  ];
+
+  bot.answerInlineQuery(query.id, results, {
+    cache_time: 0,
+    // switch_pm_text: "Заказать пиццу",
+    switch_pm_parameter: "hello",
+  });
 });
 
 // bot.onText(/\/start (.+)/, (msg, match) => {
