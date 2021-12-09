@@ -93,7 +93,7 @@ bot.on("inline_query", (query) => {
       thumb_url:
         "https://mistercat.com.ua/media/com_ksenmart/images/products/w300xh220/middle-middle-color-center-center-2021-09-25-12-34-05-1-0-0-100001546.png",
       input_message_content: {
-        message_text: `Полное описание моей пиццы `,
+        message_text: `Полное описание моей пиццы`,
       },
     },
   ];
