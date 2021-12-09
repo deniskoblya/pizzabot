@@ -2,16 +2,6 @@ const TelegramBot = require("node-telegram-bot-api");
 const { homeMenu, pizzaMenu } = require("./buttons");
 const token = "2030130508:AAECK7OzxLvqzbKFrfHmc8Q7ovPyIkaCIAs";
 
-const pizzas = [
-  {
-    name: "Рол 'Веган'",
-    pic: "https://mr-sushi.com.ua/kiev/files/products/izobrazhenie_viber_2021-02-04_18-16-52.560x420.jpg?76ae31fc250bdfb52346e114eabab7df",
-    description: "норі,рис,салатний мікс,огірок,авокадо,горіховий соус",
-    price: "85",
-  },
-  
-];
-
 const bot = new TelegramBot(token, { polling: true });
 
 bot.setMyCommands([
@@ -103,10 +93,12 @@ bot.on("inline_query", (query) => {
       thumb_url:
         "https://mistercat.com.ua/media/com_ksenmart/images/products/w300xh220/middle-middle-color-center-center-2021-09-25-12-34-05-1-0-0-100001546.png",
       input_message_content: {
-        message_text: `Полное описание моей пиццы`,
+        message_text: `Полное описание моей пиццы `,
       },
     },
   ];
+
+  
 
   bot.answerInlineQuery(query.id, results, {
     cache_time: 0,
